@@ -101,11 +101,20 @@ putting the data in tables.
       function showInfo(data, tabletop) {
         var source   = $("#weather-template").html();
         var template = Handlebars.compile(source);
-
+        //you don't really need to cache this unless you're using it more than once
+        var $tableDiv = $('.myTable');
+        //declare rows outside of .each
+        var rows = '';
+        
         $.each( tabletop.sheets("weather").all(), function(i, cat) {
           var html = template(cat);
-          $("#content").append(html);
+          //then add each element as you compile it
+          rows += html;
+
+          //or just append it to the cached div
+          //$tableDiv.append(html)
         });
+        $tableDiv.append(rows);
       }
     
       document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadsheet_url + "'>" + public_spreadsheet_url + "</a>");    
